@@ -18,12 +18,20 @@
     </head>
     <body ng-controller="GlowingController">
         <h1>Glowing Fortnight</h1>
-        <h1>Page loaded at {{time}}</h2>
+        <h1>Current time: {{datetime.time}}</h1>
+        <h1>Current date: {{datetime.date}}</h1>
     </body>
     <script>
         let app = angular.module('glow', []);
         app.controller('GlowingController', function($scope) {
-            $scope.time = new Date().toLocaleTimeString();
+            $scope.datetime = {time: "", date: ""}
+            $scope.datetime.time = new Date().toLocaleTimeString();
+            $scope.datetime.date = new Date().toLocaleDateString();
         });
+        $scope.updateTime = function () {
+            $scope.datetime.time = new Date().toLocaleTimeString();
+            $scope.datetime.date = new Date().toLocaleDateString();
+        }
+        $interval(updateTime, 1000);
     </script>
 </html>
