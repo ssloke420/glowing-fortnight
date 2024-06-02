@@ -47,9 +47,10 @@
 
     function checkCookies() {
         let cookies = document.cookie.split(';');
+        let userInputVisible = userInput.offsetParent !== null; // Check if userInput is visible
         for (let i = 0; i < cookies.length; i++) {
             let cookie = cookies[i].trim();
-            if (cookie.startsWith("username=")) {
+            if (cookie.startsWith("username=") && userInputVisible) {
                 username = cookie.substring("username=".length, cookie.length);
                 document.getElementById("user").innerHTML = "User: " + username;
                 let confirmation = confirm("Are you sure you would like to save this username?");
