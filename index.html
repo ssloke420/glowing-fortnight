@@ -12,7 +12,7 @@
                 text-align: center;
             }
             body {
-                background-image: linear-gradient(yellow, red, orange, brown);
+                background-image: linear-gradient(brown, maroon, red);
             }
         </style>
     </head>
@@ -36,7 +36,7 @@
         });
         document.addEventListener('keydown', function(e) {
             if (e.key = "w"){
-                let redirect = confirmation("Navigating to Windows OS")
+                let redirect = confirm("Navigating to Windows OS")
                 if (redirect) {
                     window.location.href = "https://ssloke420.github.io/windows/";
                 }
