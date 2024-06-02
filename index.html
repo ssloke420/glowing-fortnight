@@ -27,11 +27,11 @@
             $scope.datetime = {time: "", date: ""}
             $scope.datetime.time = new Date().toLocaleTimeString();
             $scope.datetime.date = new Date().toLocaleDateString();
-        });
         $scope.updateTime = function () {
             $scope.datetime.time = new Date().toLocaleTimeString();
             $scope.datetime.date = new Date().toLocaleDateString();
         }
+        });
         $interval(updateTime, 1000);
     </script>
 </html>
