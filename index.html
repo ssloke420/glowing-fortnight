@@ -19,71 +19,56 @@
 <h1>Current date: {{datetime.date}}</h1>
 <h1 id="user"></h1>
 <input id="usernameInput" placeholder="Enter your username."/>
-<input id="city" placeholder="Enter your city."/>
-<div id="weather-info"></div> <!-- Ensure this div is present -->
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        let app = angular.module('glow', []);
-        app.controller('GlowingController', function($scope, $interval) {
-            $scope.datetime = {time: "", date: ""}
+    let app = angular.module('glow', []);
+    app.controller('GlowingController', function($scope, $interval) {
+        $scope.datetime = {time: "", date: ""}
+        $scope.datetime.time = new Date().toLocaleTimeString();
+        $scope.datetime.date = new Date().toLocaleDateString();
+        let updateTime = function () {
             $scope.datetime.time = new Date().toLocaleTimeString();
             $scope.datetime.date = new Date().toLocaleDateString();
-            let updateTime = function () {
-                $scope.datetime.time = new Date().toLocaleTimeString();
-                $scope.datetime.date = new Date().toLocaleDateString();
-            }
-            updateTime();
-            $interval(updateTime, 1000);
-        });
+        }
+        updateTime();
+        $interval(updateTime, 1000);
+    });
 
-        let username;
-        let userInput = document.getElementById("usernameInput");
-        userInput.addEventListener("keydown", function(e){
-            if (e.key == "Enter") {
-                let inputUsername = userInput.value.trim();
-                if (inputUsername !== "") {
-                    let confirmation = confirm("Are you sure you would like to save this username?");
-                    if (confirmation) {
-                        document.cookie = `username=${inputUsername}; expires=Thu, 18 Dec 2024 12:00:00 UTC; path=/;`;
-                        username = inputUsername;
-                        document.getElementById("user").innerHTML = "User: " + username;
-                        userInput.style.display = "none";
-                    }
-                } else {
-                    alert("Please enter a username.");
-                }
-            }
-        });
-
-        function checkCookies() {
-            let cookies = document.cookie.split(';');
-            let usernameExists = false;
-            for (let i = 0; i < cookies.length; i++) {
-                let cookie = cookies[i].trim();
-                if (cookie.startsWith("username=")) {
-                    usernameExists = true;
-                    username = cookie.substring("username=".length);
+    let username;
+    let userInput = document.getElementById("usernameInput");
+    userInput.addEventListener("keydown", function(e){
+        if (e.key == "Enter") {
+            let inputUsername = userInput.value.trim();
+            if (inputUsername !== "") {
+                let confirmation = confirm("Are you sure you would like to save this username?");
+                if (confirmation) {
+                    document.cookie = `username=${inputUsername}; expires=Thu, 18 Dec 2024 12:00:00 UTC; path=/;`;
+                    username = inputUsername;
                     document.getElementById("user").innerHTML = "User: " + username;
                     userInput.style.display = "none";
-                    break;
                 }
+            } else {
+                alert("Please enter a username.");
             }
         }
+    });
 
-        // Call checkCookies after the DOM has been fully loaded
-        checkCookies();
+    function checkCookies() {
+        let cookies = document.cookie.split(';');
+        let usernameExists = false;
+        for (let i = 0; i < cookies.length; i++) {
+            let cookie = cookies[i].trim();
+            if (cookie.startsWith("username=")) {
+                usernameExists = true;
+                username = cookie.substring("username=".length);
+                document.getElementById("user").innerHTML = "User: " + username;
+                userInput.style.display = "none";
+                break;
+            }
+        }
+    }
 
-        // Function to fetch weather data from OpenWeatherMap API
-        function fetchWeather(city) {
-            const apiKey = 'dd41067365b545f2a3cad7d24992b617';
-            const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
-
-            fetch(apiUrl)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-         
+    // Call checkCookies after the DOM has been fully loaded
+    window.addEventListener("load", checkCookies);
+</script>
+</body>
+</html>
