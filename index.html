@@ -23,7 +23,7 @@
     </body>
     <script>
         let app = angular.module('glow', []);
-        app.controller('GlowingController', function($scope) {
+        app.controller('GlowingController', function($scope, $interval) {
             $scope.datetime = {time: "", date: ""}
             $scope.datetime.time = new Date().toLocaleTimeString();
             $scope.datetime.date = new Date().toLocaleDateString();
@@ -31,6 +31,7 @@
             $scope.datetime.time = new Date().toLocaleTimeString();
             $scope.datetime.date = new Date().toLocaleDateString();
         }
+        $scope.updateTime();
         $interval(updateTime, 1000);
         });
     </script>
