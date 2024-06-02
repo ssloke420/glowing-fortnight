@@ -18,6 +18,7 @@
 <h1>Current time: {{datetime.time}}</h1>
 <h1>Current date: {{datetime.date}}</h1>
 <h1 id="user"></h1>
+<input id="usernameInput" placeholder="Enter your username."/>
 <script>
     let app = angular.module('glow', []);
     app.controller('GlowingController', function($scope, $interval) {
@@ -33,8 +34,7 @@
     });
 
     let username;
-    let userInput = document.createElement("input");
-    userInput.placeholder = "Enter your username."
+    let userInput = document.getElementById("usernameInput");
     userInput.addEventListener("keydown", function(e){
         if (e.key == "Enter") {
             document.cookie = `username=${userInput.value}; expires=Thu, 18 Dec 2024 12:00:00 UTC; path=/;`;
@@ -43,7 +43,6 @@
             checkCookies(); // Call cookies loop again after setting the cookie
         }
     });
-    document.body.appendChild(userInput); // Append the input element to the document
 
     function checkCookies() {
         let cookies = document.cookie.split(';');
@@ -61,7 +60,9 @@
             }
         }
     }
-    checkCookies(); // Initial check
+
+    // Call checkCookies after the DOM has been fully loaded
+    window.addEventListener("load", checkCookies);
 </script>
 </body>
 </html>
