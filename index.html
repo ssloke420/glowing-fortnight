@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="glow">
     <head>
         <title>Glowing Fortnight</title>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
@@ -8,13 +8,22 @@
                 color: darkorange;
                 font-family: monospace;
                 text-decoration: double;
+                font-size: 50pt;
+                text-align: center;
             }
             body {
-                background-image: linear-gradient(brown, maroon, yellow, brown);
+                background-image: linear-gradient(yellow, red, blue, green);
             }
         </style>
     </head>
-    <body>
+    <body ng-controller="GlowingController">
         <h1>Glowing Fortnight</h1>
+        <h1>Page loaded at {{time}}</h2>
     </body>
+    <script>
+        let app = angular.module('glow', []);
+        app.controller('GlowingController', function($scope) {
+            $scope.time = new Date().toLocaleTimeString();
+        });
+    </script>
 </html>
