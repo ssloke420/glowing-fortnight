@@ -1,46 +1,62 @@
 <!DOCTYPE html>
 <html ng-app="glow">
-    <head>
-        <title>Glowing Fortnight</title>
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
-        <style>
-            h1 {
-                color: darkorange;
-                font-family: monospace;
-                text-decoration: double;
-                font-size: 50pt;
-                text-align: center;
-            }
-            body {
-                background-image: linear-gradient(brown, maroon, red);
-            }
-        </style>
-    </head>
-    <body ng-controller="GlowingController">
-        <h1>Glowing Fortnight</h1>
-        <h1>Current time: {{datetime.time}}</h1>
-        <h1>Current date: {{datetime.date}}</h1>
-    </body>
-    <script>
-        let app = angular.module('glow', []);
-        app.controller('GlowingController', function($scope, $interval) {
-            $scope.datetime = {time: "", date: ""}
-            $scope.datetime.time = new Date().toLocaleTimeString();
-            $scope.datetime.date = new Date().toLocaleDateString();
-         let updateTime = function () {
+<head>
+    <title>Glowing Fortnight</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+    <style>
+        body {
+            color: darkorange;
+            font-family: monospace;
+            text-decoration: double;
+            text-align: center;
+            background-image: linear-gradient(brown, maroon, red);
+        }
+    </style>
+</head>
+<body ng-controller="GlowingController">
+<h1 style="font-size: 50pt;">Glowing Fortnight</h1>
+<h1>Current time: {{datetime.time}}</h1>
+<h1>Current date: {{datetime.date}}</h1>
+<h1 id="user"></h1>
+<script>
+    let app = angular.module('glow', []);
+    app.controller('GlowingController', function($scope, $interval) {
+        $scope.datetime = {time: "", date: ""}
+        $scope.datetime.time = new Date().toLocaleTimeString();
+        $scope.datetime.date = new Date().toLocaleDateString();
+        let updateTime = function () {
             $scope.datetime.time = new Date().toLocaleTimeString();
             $scope.datetime.date = new Date().toLocaleDateString();
         }
         updateTime();
         $interval(updateTime, 1000);
-        });
-        document.addEventListener('keydown', function(e) {
-            if (e.key = "w"){
-                let redirect = confirm("Navigating to Windows OS")
-                if (redirect) {
-                    window.location.href = "https://ssloke420.github.io/windows/";
-                }
+    });
+
+    let username;
+    function checkCookies() {
+        let cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            let cookie = cookies[i].trim();
+            if (cookie.startsWith("username=")) {
+                username = cookie.substring("username=".length, cookie.length);
+                document.getElementById("user").innerHTML = "User: " + username;
+                break;
             }
-        });
-    </script>
+        }
+    }
+    checkCookies(); // Initial check
+
+    const userInput = document.createElement("input");
+    userInput.placeholder = "Enter your username."
+    userInput.addEventListener("keydown", function(e){
+        if (e.key == "Enter") {
+            document.cookie = `username=${userInput.value}; expires=Thu, 18 Dec 2024 12:00:00 UTC; path=/;`;
+            username = userInput.value;
+            document.getElementById("user").innerHTML = "User: " + username;
+            checkCookies(); // Call cookies loop again after setting the cookie
+        }
+    });
+    document.body.appendChild(userInput); // Append the input element to the document
+</script>
+</body>
 </html>
