@@ -37,10 +37,13 @@
     let userInput = document.getElementById("usernameInput");
     userInput.addEventListener("keydown", function(e){
         if (e.key == "Enter") {
-            document.cookie = `username=${userInput.value}; expires=Thu, 18 Dec 2024 12:00:00 UTC; path=/;`;
-            username = userInput.value;
-            document.getElementById("user").innerHTML = "User: " + username;
-            checkCookies(); // Call cookies loop again after setting the cookie
+            let confirmation = confirm("Are you sure you would like to save this username?");
+            if (confirmation) {
+                document.cookie = `username=${userInput.value}; expires=Thu, 18 Dec 2024 12:00:00 UTC; path=/;`;
+                username = userInput.value;
+                document.getElementById("user").innerHTML = "User: " + username;
+                userInput.style.display = "none";
+            }
         }
     });
 
