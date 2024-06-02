@@ -9,7 +9,7 @@
             font-family: monospace;
             text-decoration: double;
             text-align: center;
-            background-image: linear-gradient(blue, cyan, lightblue);
+            background-image: linear-gradient(brown, maroon, red);
         }
     </style>
 </head>
@@ -37,12 +37,17 @@
     let userInput = document.getElementById("usernameInput");
     userInput.addEventListener("keydown", function(e){
         if (e.key == "Enter") {
-            let confirmation = confirm("Are you sure you would like to save this username?");
-            if (confirmation) {
-                document.cookie = `username=${userInput.value}; expires=Thu, 18 Dec 2024 12:00:00 UTC; path=/;`;
-                username = userInput.value;
-                document.getElementById("user").innerHTML = "User: " + username;
-                userInput.style.display = "none";
+            let inputUsername = userInput.value.trim();
+            if (inputUsername !== "") {
+                let confirmation = confirm("Are you sure you would like to save this username?");
+                if (confirmation) {
+                    document.cookie = `username=${inputUsername}; expires=Thu, 18 Dec 2024 12:00:00 UTC; path=/;`;
+                    username = inputUsername;
+                    document.getElementById("user").innerHTML = "User: " + username;
+                    userInput.style.display = "none";
+                }
+            } else {
+                alert("Please enter a username.");
             }
         }
     });
@@ -54,13 +59,10 @@
             let cookie = cookies[i].trim();
             if (cookie.startsWith("username=")) {
                 usernameExists = true;
-                break;
-            }
-        }
-        if (!usernameExists) {
-            let confirmation = confirm("Are you sure you would like to save this username?");
-            if (confirmation) {
+                username = cookie.substring("username=".length);
+                document.getElementById("user").innerHTML = "User: " + username;
                 userInput.style.display = "none";
+                break;
             }
         }
     }
